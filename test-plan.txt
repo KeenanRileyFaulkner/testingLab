@@ -1,0 +1,59 @@
+Test Plan:
+
+Smoke/Sanity test (basic run-through of site)
+1. 15 mins
+    Check out the hamburger menu
+    Check out the Enter, Modify and Cancel options
+    Error and Empty demarkation
+    Correct Info displayed when necessary
+    Site is dynamic for different window sizes
+
+    Notes:
+        Menu has scroll (doesn't need it)
+        X button is overlapping scroll bar on menu
+        No margin/padding on "version 1.1" text
+        "Hilighted red" is mispelled on all pages (should be spelled "Highlighted")
+        "Optional" fields are required on Enter Wanted page
+        Multiple fields for License State/DL State and License expiration date/DL expiration date "License" fields ought to be "Registration" and DL can stay the same
+        Warrant date may be set in the future
+        Height and Weight fields do not have units attached
+            Particularly troublesome for height because height=511 makes no sense
+        Cannot submit form on cancel warrant page due to "At least one optional field needs to be included" nonsensical Error
+        Modify wanted page accepts special chars for hair color
+        Unclear functionality of modify page... need to specify that all non-required fields will overwrite the old values (perhaps with warn before submit).
+        Offense may be numerical on modify page
+        Multiple fields for license info on modify page
+        No way to tell if page changed when navigating menu until menu closes
+        
+
+High-Level (broad) tests
+1. Does the front-end communicate correctly with the API?
+    RESULTS:
+        This app does not have an API layer visible.
+
+2. Does the API communicate with the server and the server with the db?
+    RESULTS:
+        This app does not seem to communicate with a server. No apparent API layer...
+
+What functionality does this app even have? If there is no client-server connection, then nothing is happening. No database is getting updated. Nothing is actually changing.
+
+Low-level (specific) tests
+1. Do the fields for height/weight accept only positive numbers? (enter/modify pages)
+    A. Navigate to the "Enter Wanted" page
+    B. Fill in dummy information for all required fields except height and weight
+    C. Try special characters, negative numbers, and alpha chars for height and weight field
+    D. Repeat for "Modify Wanted" page
+
+    RESULTS:
+        For both pages, height values throw a error of "The Height field can only include numeric characters" when height is entered as 000, in addition to the correct error.
+            Same thing occurs for the weight field.
+        On "Enter Wanted" page, alpha or special char entries do not pass, which is good behavior.
+
+
+2. Does the submit button stay unselectable until all required information is filled in? (all pages)
+    A. Navigate to each page
+    B. Fill in required fields
+    C. Note the point at which "Submit" button is selectable
+
+    RESULTS:
+        "Submit" button is selectable for each page as soon as any input is received in any field, even if the field is cleared with backspace key
